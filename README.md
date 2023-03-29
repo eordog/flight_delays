@@ -40,6 +40,8 @@ It contains the following features:
  
 The flight information is from the Bureau of Transportation Statistics, and the dataset as a whole is from Kaggle.[^2]
 
+Data preprocessing was performed in the notebook for linear regression.
+
 Regression Models
 ---------------------
 
@@ -62,23 +64,25 @@ I would also add interaction terms to the model.
 
 ### Decision tree regressor ###
 
-After hyperparameter tuning, a decision tree regressor with      was selected.
+Decision trees make splits in the data to minimize the error after averaging the data placed in each group.
 Decision trees are usually less accurate than random forests but are better for interpretability of the model.
+The hyperparameters tuned were max depth, max features, minimum samples per leaf, minimum samples split, minimum weight fraction per leaf, and splitter.
 
 ### Random forest regressor ###
 
 Random forests average over many decision trees on bootstrapped samples of the data to improve accuracy and prevent overfitting.
-With hyperparameter tuning, the best random forest regressor had 
+With hyperparameter tuning, the best random forest regressor had 200 estimators and no maximum depth or maximum number of features.
 
 ### AdaBoost regressor ###
 
 This AdaBoost regressor starts with a decision tree and continually improves the model by giving weights to the data based on the prediction error.
-Hyperparameter tuning gave 
+Hyperparameter tuning gave a learning rate of 0.012, 7 estimators, and the decision tree baseline estimator had a max depth of 20.
 
 ### XGBoost regressor ###
 
-XGBoost is another typing of boosting; the difference is that XGBoost trains on the errors.
-After hyperparameter tuning, we had
+XGBoost is another type of boosting; the difference is that XGBoost trains on the errors.
+The best model had a learning rate of 0.3, a maximum depth of 6, number of estimators 200, and all features used for each node in the tree.
+
 
 Classification models
 ---------------------------------------------
@@ -87,36 +91,41 @@ Classification models
 
 The logistic regression model estimates the probability that a flight will be delayed by fifteen minutes or more using the logistic function.
 If the value of the logistic function is greater than a certain cutoff point, it will predict that the flight is delayed.
+The best cutoff point for logistic regression was 0.177.
 
 ### Random forest classifier ###
+After hyperparameter tuning, the best random forest classifier had 200 estimators, a maximum depth of 100, entropy as the splitting criterion, and the square root of the number of features used to determine each split.
 
 ### XGBoost classifier ###
-
+After hyperparameter tuning, the best XGBoost classifier had a learning rate of 0.3, maximum depth of 7, and number of estimators 500.
 
 Results
 ---------------
 
-Three models are given in this repository: the baseline model, and modified versions of InceptionV3 and MobileNetV2. 
-On the testing set, the accuracies of the models are as follows: Baseline--88%, InceptionV3--94%, and MobileNetV2--95%.
+The validation and test set error for the regression models are below. 
+The best model was the XGBoost regressor, with a test set RMSE of 25.802.
 
-The precision and recall for the MobileNetV2 model are displayed in the table below.
-
-| Regression model       | Validation error | Test error     |
+| Regression model       | Validation RMSE | Test RMSE    |
 | :---        |    :----:        |      :---: |
-|  Baseline model    |             |          |
-|  Linear regression   | Title            | Here's this   |
-|  with Lasso Regularization   | Text             | And more      |
-|  Decision tree regressor     |                          |      |
-|  Random forest regressor    |                        |         |
-|  AdaBoost regressor     |                           |         |
-|  XGBoost regressor       |                          |         |
+|  Baseline model    |       37.025      |      36.235    |
+|  Linear regression   | 36.477            | 35.478   |
+|  Decision tree regressor     |              33.278            |   32.411   |
+|  Random forest regressor    |             27.609           |    27.926     |      
+|  AdaBoost regressor     |           29.978                |    30.775     |
+|  XGBoost regressor       |              23.496            |     25.802    |
 
-| Classification model  |                   |              |
-|     :-----         |  :------:         |   :-----:        |
-|   Logistic regression           |                  |           |          
-|   Random forest classifier      |                  |           |
-|   XGBoost classifier           |                  |           |
+The following scores for classification models are given for the test set. 
+The best model was the XGBoost classifier, with an F1 score of 0.607.
+
+| Classification model  |             Precision        | Recall | F1 score | 
+|     :-----         |  :------:         |   :-----:        |   :----:|
+|   Logistic regression           |          0.257        |  0.405         | 0.315|          
+|   Random forest classifier      |         0.841         |  0.145         | 0.248|
+|   XGBoost classifier           |          0.817        |    0.483       |  0.607 |
+
+Below is the normalized confusion matrix for the XGBoost classifier.
+
+![confusion_matrix_xgboost](https://user-images.githubusercontent.com/97986688/228402553-facd3323-a545-4797-b0b5-2a46dd9e860b.png)
 
 [^1]: https://www.faa.gov/data_research/aviation_data_statistics/media/cost_delay_estimates.pdf
 [^2]: https://www.kaggle.com/datasets/deepankurk/flight-take-off-data-jfk-airport
-
