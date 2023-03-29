@@ -6,7 +6,7 @@ Background
 ----------
 
 The Federal Aviation Administration estimated that in 2019, airline delays had a cost of $8.3 billion dollars to airlines and $18.1 billion to customers. [^1]
-The ability to predict flight delays is of value to both the airline and the consumer, and an understanding of the strongest predictors of delays can help them.
+The ability to predict flight delays is of value to both the airline and the consumer, and an understanding of the strongest predictors of delays can help airlines to prevent them.
 
 This repository contains models both to predict the number of minutes a flight will be delayed and to predict whether a flight will be delayed by fifteen minutes or more. 
 As the models only rely on flight information (scheduled departure time, distance, destination, etc.) and local weather information (temperature, wind speed, condition) that can often be known well in advance, these models can be used to give airlines and customers a good prediction of whether or not their flight will be delayed.
